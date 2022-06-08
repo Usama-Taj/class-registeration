@@ -1,9 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ClassRegisteration = () => {
+
+  // const [name, setName] = React.useState("")
+  const [id, setId] = useState("")
+  const [subject, setSubject] = React.useState("")
+  const [startDate, setStartDate] = React.useState("")
+  const [period, setPeriod] = React.useState("")
+  const [months, setMonths] = React.useState("")
+  const [noOfStd, setnoOfStd] = React.useState("")
+  const [message, setMessage] = React.useState("")
+  console.log(subject);
+  console.log(setSubject)
+  // const textChangeHandler = (i) => {
+  //   setEnteredText(i.target.value);
+  //   //console.log(i.target.value);
+  // };
+
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch("/db.json", {
+        method: "POST",
+        body: JSON.stringify({
+          subject: subject,
+          startDate: startDate,
+          period: period,
+          months: months,
+          noOfStd: noOfStd
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        setId("")
+        setSubject("")
+        setPeriod("")
+        setStartDate("")
+        setMonths("")
+        setnoOfStd("")
+        setMessage("Sttudent created successfully");
+      } else {
+        setMessage("Some error occured");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
+
+
     <div className="container my-5">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-12">
             <div className="card">
@@ -19,23 +66,31 @@ const ClassRegisteration = () => {
                       name="name"
                       type="text"
                       placeholder="Enter Class ID"
+
                     />
                   </div>
                   <div className="form-group my-2">
+
                     <label htmlFor="subject">Subject</label>
                     <input
                       className="form-control"
                       name="subject"
                       type="text"
                       placeholder="Enter Subject Name"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+
                     />
                   </div>
+
                   <div className="form-group my-2">
                     <label htmlFor="start_date">Starting Date</label>
                     <input
                       className="form-control"
                       name="start_date"
                       type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
                     />
                   </div>
                   <div className="form-group my-2">
@@ -47,6 +102,8 @@ const ClassRegisteration = () => {
                         id="class_period"
                         placeholder="Enter Class Period in Months"
                         type="number"
+                        value={period}
+                        onChange={(e) => setPeriod(e.target.value)}
                       />
                       <div className="input-group-append">
                         <span className="input-group-text" id="basic-addon2">
@@ -112,7 +169,7 @@ const ClassRegisteration = () => {
           </ul>
         </div>
         <div className="row">
-          <input className="btn btn-dark" type="submit" value="Submit" />
+          <input className="btn btn-dark" type="submit" value="Submit" onSubmit={handleSubmit} />
         </div>
       </form>
     </div>

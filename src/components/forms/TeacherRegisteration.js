@@ -11,6 +11,7 @@ const TeacherRegisterarion = () => {
             <div className="shadow p-3  bg-body rounded">
               <div className="card-header">
                 <h3>Teacher Registeration</h3>
+                <h3>Teacher Registeration</h3>
               </div>
               <div className="card-body">
                 <form>
